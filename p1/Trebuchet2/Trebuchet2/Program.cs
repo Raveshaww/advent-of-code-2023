@@ -14,7 +14,6 @@
             ("eight", 8),
             ("nine", 9),
         };
-        var cleanedPromptInput = new List<string>();
         int total = 0;
 
         foreach ( string prompt in promptInput ) 
@@ -28,7 +27,6 @@
                 if (char.IsDigit(prompt[i]))
                 {
                     first = int.Parse(prompt[i].ToString());
-                    //first = prompt[i];
                     found = true;
                 }
 
@@ -64,18 +62,8 @@
                     }
                 }
             }
-            cleanedPromptInput.Add($"{first}{last}");
-        }
-
-        IEnumerable<string> stringResults =
-            from input in cleanedPromptInput
-            select string.Concat(input.Where(char.IsDigit).First(), input.Where(char.IsDigit).Last());
-
-
-        foreach (var i in stringResults)
-        {
-            Console.WriteLine(i);
-            total += int.Parse(i);
+            Console.WriteLine($"{first}{last}");
+            total += int.Parse($"{first}{last}");
         }
 
         Console.WriteLine($"\nThe total is: {total}");
