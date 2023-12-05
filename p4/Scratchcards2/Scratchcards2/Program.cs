@@ -5,17 +5,22 @@ internal class Program
     private static void Main(string[] args)
     {
         var rows = File.ReadLines("input.in").ToList();
-        var sum = 0;
+        Regex numbersRx = new(@"\d+");
+        var cardsToRun = new List<int>();
 
-        foreach (var row in rows)
+        // Making sure that we have one of each card
+        for (int i = 0; i < rows.Count; i++)
         {
-            Regex numbersRx = new(@"\d+");
-            var gameSplit = row.Split('|')[0].Split(':')[0];
-            var winningSplit = numbersRx.Matches(row.Split('|')[0].Split(':')[1]);
-            var yourNumbers = numbersRx.Matches(row.Split('|')[1]);
+            cardsToRun.Add(1);
+        }    
+
+        for (int i = 0; i < rows.Count; i++)
+        {
+            var winningSplit = numbersRx.Matches(rows[i].Split('|')[0].Split(':')[1]);
+            var yourNumbers = numbersRx.Matches(rows[i].Split('|')[1]);
             var winningNumbersList = new List<int>();
             var yourNumbersList = new List<int>();
-            var points = 0;
+            var matches = 0;
 
             foreach (Match match in winningSplit)
             {
@@ -31,19 +36,15 @@ internal class Program
             {
                 if (winningNumbersList.Contains(number))
                 {
-                    if (points == 0)
-                    {
-                        points++;
-                    }
-                    else
-                    {
-                        points *= 2;
-                    }
+                    matches += 1;
                 }
             }
-            sum += points;
-            Console.WriteLine($"{gameSplit}: {points} points.");
+
+            for (int j = 1; j <= matches; j++)
+            {
+                cardsToRun[i + j] += cardsToRun[i];
+            }
         }
-        Console.WriteLine($"Grand total: {sum}");
+        Console.WriteLine(cardsToRun.Sum());
     }
 }

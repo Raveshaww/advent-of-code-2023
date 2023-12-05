@@ -6,10 +6,10 @@ internal class Program
     {
         var rows = File.ReadLines("input.in").ToList();
         var sum = 0;
+        Regex numbersRx = new(@"\d+");
 
         foreach (var row in rows)
         {
-            Regex numbersRx = new(@"\d+");
             var gameSplit = row.Split('|')[0].Split(':')[0] ;
             var winningSplit = numbersRx.Matches(row.Split('|')[0].Split(':')[1]);
             var yourNumbers = numbersRx.Matches(row.Split('|')[1]);
